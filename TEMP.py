@@ -112,13 +112,7 @@ skupina_utvarov.pridaj(k)
 skupina_utvarov.pridaj(r)
 print(skupina_utvarov.citaj())
 
-
-
 k.prefarbi('green')
 r.posun(50)
-
-
-
-
 
 root.mainloop()

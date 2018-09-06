@@ -1,0 +1,9 @@
+ while riadok != '':
+        print(i,'. riadok ', end='')
+        znaky_riadku = len(riadok)
+        if znaky_riadku > najdlhsi_riadok:
+            print(' ---> ', znaky_riadku, ' > ', najdlhsi_riadok)
+            najdlhsi_riadok = znaky_riadku
+        else:
+            print(' ---> ', znaky_riadku, ' <= ', najdlhsi_riadok)
+        i += 1 

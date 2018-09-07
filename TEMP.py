@@ -15,8 +15,9 @@ class Kruh:
                                      self.x-self.r, self.y-self.r,
                                      fill = self.farba)
     def __str__(self):
-        return 'Kruh({},{},{},{},{})' \
-            .format(self.x+self.r, self.y+self.r,self.x-self.r, self.y-self.r,repr(self.farba))
+        return 'Kruh({},{},{},{},{})' .format(self.x+self.r, self.y+self.r,
+                                              self.x-self.r, self.y-self.r,
+                                              repr(self.farba))
 
     def posun(self, dx=0, dy=0):
         self.x += dx
@@ -70,7 +71,7 @@ class Skupina:
 
     def pridaj(self, utvar):
         self.pole.append(utvar)
-        print('Pridal som do pola')
+        print('Pridal som do pola utvar - ', utvar.__str__())
 
     def prefarbi(self, farba):
         for utvar in self.pole:
@@ -90,9 +91,13 @@ class Skupina:
             if utvar.typ == typ:
                 utvar.posun(dx, dy)
 
-    def citaj(self, skupina):
-        return 'Obsah skupiny: ({})' .format(', '.join(self.pole))
+    def citaj(self):
+        skup_utvary = []
+        for utvar in self.pole:
+            skup_utvary.append(utvar.__str__())
+        return skup_utvary
 
+    # return 'Obsah skupiny: ({})' .format(', '.join(self.pole))
 
 
 # ---------------------------------------------------- >
@@ -107,10 +112,10 @@ skupina_utvarov = Skupina()
 k = Kruh(50, 50, 30, 'blue')
 r = Obdlznik(100, 20, 100, 50)
 
-
 skupina_utvarov.pridaj(k)
 skupina_utvarov.pridaj(r)
-print(skupina_utvarov.citaj())
+#skupina_utvarov.citaj()
+print('Obsah skupiny: [{}]' .format(', '.join(skupina_utvarov.citaj())))
 
 k.prefarbi('green')
 r.posun(50)

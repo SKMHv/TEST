@@ -81,7 +81,6 @@ class Kruh:
         self.farba = farba
         self.canvas.itemconfig(self.id, fill=self.farba)
 
-
 class Obdlznik:
     canvas = None
     typ = 'obdlznik'
@@ -167,7 +166,6 @@ root.mainloop()
 # DEDENIE Z NDRADENEJ TRIEDY UTVAR
 
 from tkinter import *
-import random
 
 class Utvar:
     canvas = None

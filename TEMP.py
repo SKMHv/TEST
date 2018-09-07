@@ -127,10 +127,6 @@ skupina_utvarov.prefarbi_typ(Kruh, 'black')
 skupina_utvarov.posun_typ(Obdlznik, -10, -25)
 
 
-
-
-
-
 root.mainloop()
 
 

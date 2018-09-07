@@ -2884,7 +2884,7 @@ prve_tri = ''
 
 print('Spustenie programu:')
 vstup_subor = input("Zadaj meno suboru v pracovnej zlozke: ")
-cesta_subor = 'WORK_FILES/'+vstup_subor
+cesta_subor = 'FILE/'+vstup_subor
 with open(cesta_subor, 'r', encoding = 'utf-8') as f:
     riadok = f.readline()
     print(riadok[:3])
@@ -2907,11 +2907,11 @@ print("------------------------------ 2 -------------------------------------")
 print('--------- VYTVOR / VYMAZ SUBORU ---------')
 i, znak = 0, 0
 retazec = ''
-with open('WORK_FILES/text2.txt', 'w', encoding='utf-8') as w:# Otvor subor na zapis
-    print('Subor WORK_FILES/text2.txt je vytvoreny / vycisteny !!!')
+with open('FILE/text2.txt', 'w', encoding='utf-8') as w:# Otvor subor na zapis
+    print('Subor FILE/text2.txt je vytvoreny / vycisteny !!!')
 
 print('--------- VYGENERUJ RIADKY SUBORU ---------')
-with open('WORK_FILES/text2.txt', 'a', encoding='utf-8') as a:      # Otvor subor na doplnenie
+with open('FILE/text2.txt', 'a', encoding='utf-8') as a:      # Otvor subor na doplnenie
     for i in range(15):
         if i == 10:                                                 # ak je 10 riadok v subore
             retazec = str(i) + '. riadok = '
@@ -2922,7 +2922,7 @@ with open('WORK_FILES/text2.txt', 'a', encoding='utf-8') as a:      # Otvor subo
             a.write(str(i) + '. riadok\n')                          # zapis riadok
 
 print('--------- HLADAJ NAJDLHSI RIADOK ---------')
-with open('WORK_FILES/text2.txt', 'r', encoding='utf-8') as r:      # Otvor subor na citanie
+with open('FILE/text2.txt', 'r', encoding='utf-8') as r:      # Otvor subor na citanie
     najdlhsi_riadok = 0                                             # inicializacia najdlhsieho riadku od 0
     znaky_riadku = 0                                                # inicializacia poctu znakov riadku od 0
     i = 0

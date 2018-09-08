@@ -1,5 +1,7 @@
 
-# DEDENIE Z NDRADENEJ TRIEDY UTVAR
+# 16.2.3 Testovanie typu inštancie
+print("------------------------------ 16.2.3 -------------------------------------")
+print('===== Testovanie typu inštancie =====')
 
 from tkinter import *
 import random

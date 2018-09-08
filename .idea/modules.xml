@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../SimpleTornadoServer/.idea/SimpleTornadoServer.iml" filepath="$PROJECT_DIR$/../SimpleTornadoServer/.idea/SimpleTornadoServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/TEST.iml" filepath="$PROJECT_DIR$/.idea/TEST.iml" />
     </modules>
   </component>

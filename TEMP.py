@@ -1,134 +1,73 @@
+# =============================================
+# CVICENIA
+# =============================================
+# Zadefinujte triedu Ucet s metódami:
+#
+#    - __init__(meno, suma) - meno účtu a počiatočná suma, napr. Ucet('mbank', 100) alebo Ucet('jbanka')
+#
+#    - __str__() - reťazec v tvare 'ucet mbank -> 100 euro' alebo ucet jbanka -> 0 euro
+#
+#    - stav() - vráti momentálny stav účtu
+#
+#    - vklad(suma) - danú sumu pripočíta k účtu
+#
+#    - vyber(suma) - vyberie sumu z účtu (len ak je to kladné číslo), vráti vybranú sumu, ak je na účte
+#      menej ako požadovaná suma, vyberie len toľko koľko sa dá
+#
+#    - otestujte napr.
 
-# 16.2.3 Testovanie typu inštancie
-print("------------------------------ 16.2.3 -------------------------------------")
-print('===== Testovanie typu inštancie =====')
+# mbank = Ucet('mbank')
+# csob = Ucet('csob', 100)
+# tatra = Ucet('tatra', 17)
+# sporo = Ucet('sporo', 50)
+# mbank.vklad(sporo.vyber(30) + tatra.vyber(30))
+# csob.vyber(-5)
+# spolu = 0
+# for ucet in mbank, csob, tatra, sporo:
+#     print(ucet)
+#     spolu += ucet.stav()
+# print('spolu = ', spolu)
 
-from tkinter import *
-import random
+# Vypise:
+# ucet mbank -> 47 euro
+# ucet csob -> 100 euro
+# ucet tatra -> 0 euro
+# ucet sporo -> 20 euro
+# spolu =  167
 
-class Utvar:
-    canvas = None
-
-    def __init__(self, x, y, farba='red' ):
-        self.x, self.y = x, y
-        self.farba = farba
-        self.id = None
-
-    def posun(self, dx=0, dy=0):
-        self.x += dx
-        self.y += dy
-        self.canvas.move(self.id, dx, dy)
-
-    def prefarbi(self, farba):
-        self.farba = farba
-        self.canvas.itemconfig(self.id, fill=self.farba)
-
-class Kruh(Utvar):
-    canvas = None
-
-    def __init__(self, x, y, r, farba='red'):
-        super().__init__(x, y, farba)
-        self.r = r
-        self.id = canvas.create_oval(self.x+self.r, self.y+self.r,
-                                     self.x-self.r, self.y-self.r,
-                                     fill = self.farba)
-    def __str__(self):
-        return 'Kruh({},{},{},{},{})' .format(self.x+self.r, self.y+self.r,
-                                              self.x-self.r, self.y-self.r,
-                                              repr(self.farba))
-
-    def zmen(self, r):
-        self.r = r
-        self.canvas.coords(self.id,
-                           self.x + self.r, self.y + self.r,
-                           self.x - self.r, self.y - self.r)
-
-class Obdlznik(Utvar):
-    canvas = None
-
-    def __init__(self, x, y, sirka, vyska, farba='red'):
-        super().__init__(x, y, farba)
-        self.sirka, self.vyska = sirka, vyska
-        self.id = canvas.create_rectangle(self.x, self.y,
-                                          self.x+sirka, self.y+vyska,
-                                          fill=self.farba)
+class Ucet:
+    def __init__(self, meno, suma = 0):
+        self.meno = meno
+        self.suma = suma
 
     def __str__(self):
-        return 'Obdlznik({},{},{},{},{})' .format(self.x, self.y, self.sirka, self.vyska, self.farba)
+        return 'Ucet {} -> {} euro'.format(self.meno, self.suma)
 
+    def stav(self):
+        return self.suma
 
-    def zmen(self, sirka, vyska):
-        self.r = r
-        self.canvas.coords(self.id,
-                           self.x, self.y,
-                           self.x+sirka, self.y+vyska)
+    def vklad(self, suma):
+        self.suma += suma
 
-class Skupina:
-    def __init__(self):
-        self.pole = []
+    def vyber(self, suma):
+        if self.suma > 0:
+            self.suma -= suma
+            if self.suma < 0:
+                self.suma = 0
 
-    def pridaj(self, utvar):
-        self.pole.append(utvar)
-        print('Pridal som do pola utvar - ', utvar.__str__())
+        else: print('Na ucte je zostatok ... ', self.suma, ', Vyber nie je mozny!')
+        return suma - self.suma
 
-    def prefarbi(self, farba):
-        for utvar in self.pole:
-            utvar.prefarbi(farba)
+mbank = Ucet('mbank')
+csob = Ucet('csob', 100)
+tatra = Ucet('tatra', 17)
+sporo = Ucet('sporo', 50)
 
-    def posun(self, dx, dy):
-        for utvar in self.pole:
-            utvar.posun(dx, dy)
+print(mbank)                             # 0
+print(sporo)                             # 0
+print(tatra)
 
-    def prefarbi_typ(self, typ, farba):
-        for utvar in self.pole:
-            if isinstance(utvar, typ):
-                utvar.prefarbi(farba)
-
-    def posun_typ(self, typ, dx, dy):
-        for utvar in self.pole:
-            if isinstance(utvar, typ):
-                utvar.posun(dx, dy)
-
-    def citaj(self):
-        skup_utvary = []
-        for utvar in self.pole:
-            skup_utvary.append(utvar.__str__())
-        return skup_utvary
-
-    # return 'Obsah skupiny: ({})' .format(', '.join(self.pole))
-
-
-# ---------------------------------------------------- >
-root = Tk()
-root.configure(bg = 'white')
-root.title('16.2.2 GRAFICKE OBJEKTY')
-canvas = Canvas(root, bg = 'white', width = '600', height ='600')
-c = Kruh.canvas = Obdlznik.canvas = canvas
-c.pack()
-
-skupina_utvarov = Skupina()
-t1 = Kruh(50, 50, 30)
-t2 = Obdlznik(100, 20, 100, 50)
-
-# isinstance(i, t), ktorá zistí, či je inštancia i typu t alebo je typom niektorého jeho predka
-print(isinstance(t1, Utvar))        # True
-print(isinstance(t1, Kruh))         # True
-print(isinstance(t1, Obdlznik))     # False
-print(isinstance(t2, Obdlznik))     # True
-# print(type(t1))     # <class '__main__.Kruh'>
-# print(type(t2))     # <class '__main__.Obdlznik'>
-
-t1.prefarbi('green')
-t2.posun(50)
-
-skupina_utvarov.pridaj(t1)
-skupina_utvarov.pridaj(t2)
-print('Obsah skupiny: [{}]' .format(', '.join(skupina_utvarov.citaj())))
-
-skupina_utvarov.prefarbi_typ(Kruh, 'black')
-skupina_utvarov.posun_typ(Obdlznik, -10, -25)
-
-
-root.mainloop()
-
-
+mbank.vklad(sporo.vyber(30) + tatra.vyber(30))
+print(mbank)                             # 0
+print(sporo)                             # 0
+print(tatra)

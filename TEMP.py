@@ -50,24 +50,34 @@ class Ucet:
         self.suma += suma
 
     def vyber(self, suma):
+        self.vyber = 0
         if self.suma > 0:
-            self.suma -= suma
-            if self.suma < 0:
+            if self.suma < suma:
+                self.vyber = self.suma
                 self.suma = 0
+            elif suma < 0: self.vyber = 0
+            else:
+                self.vyber = suma
+                self.suma = self.suma - suma
+        else:
+            print('Na ucte je zostatok ... ', self.suma, ', Vyber nie je mozny!')
+            self.vyber = 0
 
-        else: print('Na ucte je zostatok ... ', self.suma, ', Vyber nie je mozny!')
-        return suma - self.suma
+        return self.vyber
 
 mbank = Ucet('mbank')
 csob = Ucet('csob', 100)
 tatra = Ucet('tatra', 17)
 sporo = Ucet('sporo', 50)
 
-print(mbank)                             # 0
-print(sporo)                             # 0
-print(tatra)
+print(mbank)                             # Ucet mbank -> 0 euro
+print(sporo)                             # Ucet sporo -> 50 euro
+print(tatra)                             # Ucet tatra -> 17 euro
 
 mbank.vklad(sporo.vyber(30) + tatra.vyber(30))
-print(mbank)                             # 0
-print(sporo)                             # 0
-print(tatra)
+print(mbank)                             # Ucet mbank -> 47 euro
+print(sporo)                             # Ucet sporo -> 20 euro
+print(tatra)                             # Ucet tatra -> 0 euro
+csob.vyber(-5)
+print(csob)
+

@@ -1,39 +1,15 @@
 # =============================================
 # CVICENIA
 # =============================================
-# Zadefinujte triedu Ucet s metódami:
+# 3. Zadefinujte triedu UcetHeslo, ktorá je odvodená z triedy Ucet a má takto zmenené správanie:
 #
-#    - __init__(meno, suma) - meno účtu a počiatočná suma, napr. Ucet('mbank', 100) alebo Ucet('jbanka')
-#
-#    - __str__() - reťazec v tvare 'ucet mbank -> 100 euro' alebo ucet jbanka -> 0 euro
-#
-#    - stav() - vráti momentálny stav účtu
-#
-#    - vklad(suma) - danú sumu pripočíta k účtu
-#
-#    - vyber(suma) - vyberie sumu z účtu (len ak je to kladné číslo), vráti vybranú sumu, ak je na účte
-#      menej ako požadovaná suma, vyberie len toľko koľko sa dá
-#
-#    - otestujte napr.
+#   -  __init__(meno, heslo, suma) - k účtu si zapamätá aj heslo
+#   -  vklad(suma) - si najprv vypýta heslo a až keď je správne, zrealizuje vklad
+#   -  vyber(suma) - si najprv vypýta heslo a až keď je správne, zrealizuje výber,
+#      inak vráti None
+#   -  pri definovaní týchto metód volajte ich pôvodné verzie z triedy Ucet
+#   -  otestujte napr.
 
-# mbank = Ucet('mbank')
-# csob = Ucet('csob', 100)
-# tatra = Ucet('tatra', 17)
-# sporo = Ucet('sporo', 50)
-# mbank.vklad(sporo.vyber(30) + tatra.vyber(30))
-# csob.vyber(-5)
-# spolu = 0
-# for ucet in mbank, csob, tatra, sporo:
-#     print(ucet)
-#     spolu += ucet.stav()
-# print('spolu = ', spolu)
-
-# Vypise:
-# ucet mbank -> 47 euro
-# ucet csob -> 100 euro
-# ucet tatra -> 0 euro
-# ucet sporo -> 20 euro
-# spolu =  167
 
 class Ucet:
     def __init__(self, meno, suma = 0):
@@ -50,34 +26,64 @@ class Ucet:
         self.suma += suma
 
     def vyber(self, suma):
-        self.vyber = 0
+        self.vyberam = 0
         if self.suma > 0:
             if self.suma < suma:
-                self.vyber = self.suma
+                self.vyberam = self.suma
                 self.suma = 0
-            elif suma < 0: self.vyber = 0
+            elif suma < 0:
+                self.vyberam = 0
             else:
-                self.vyber = suma
+                self.vyberam = suma
                 self.suma = self.suma - suma
         else:
             print('Na ucte je zostatok ... ', self.suma, ', Vyber nie je mozny!')
-            self.vyber = 0
+            self.vyberam = 0
 
-        return self.vyber
+        return self.vyberam
 
-mbank = Ucet('mbank')
+
+
+class UcetHeslo(Ucet):
+    def __init__(self, meno, heslo, suma=0):
+        super().__init__(meno, suma)
+        self.heslo = heslo
+
+    def stav(self):
+        self.ucet_pass = input('Zadaj heslo k uctu: ')
+
+        if self.ucet_pass != self.heslo:
+            print('Nespravne meno heslo!')
+            return None
+        else:
+            return Ucet.stav(self)
+
+    def vklad(self, suma):
+        self.ucet_pass = input('Pre vklad zadaj heslo k uctu: ')
+        if self.ucet_pass != self.heslo:
+            print('Nespravne meno heslo!')
+            return None
+        else:
+            Ucet.vklad(self,suma)
+
+    def vyber(self, suma):
+        self.ucet_pass = input('Pre vyber zadaj heslo k uctu: ')
+        if self.ucet_pass != self.heslo:
+            print('Nespravne meno heslo!')
+            return None
+        else:
+            return Ucet.vyber(self,suma)
+
+# ------------------------------------------------------------
+
+mbank = UcetHeslo('mbank', 'gigi')
 csob = Ucet('csob', 100)
-tatra = Ucet('tatra', 17)
+tatra = UcetHeslo('tatra', 'gogo', 17)
 sporo = Ucet('sporo', 50)
 
-print(mbank)                             # Ucet mbank -> 0 euro
-print(sporo)                             # Ucet sporo -> 50 euro
-print(tatra)                             # Ucet tatra -> 17 euro
-
-mbank.vklad(sporo.vyber(30) + tatra.vyber(30))
-print(mbank)                             # Ucet mbank -> 47 euro
-print(sporo)                             # Ucet sporo -> 20 euro
-print(tatra)                             # Ucet tatra -> 0 euro
-csob.vyber(-5)
-print(csob)
-
+#print(dir(mbank))
+print(mbank.stav())
+mbank.vklad(20)
+print(mbank.stav())
+mbank.vyber(20)
+print(mbank.stav())

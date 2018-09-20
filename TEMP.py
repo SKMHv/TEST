@@ -1,89 +1,72 @@
 # =============================================
 # CVICENIA
 # =============================================
-# 3. Zadefinujte triedu UcetHeslo, ktorá je odvodená z triedy Ucet a má takto zmenené správanie:
+# 4. Zadefinujte dve triedy Turtle1 a Turtle2, obidve odvodené od Turtle,
+#    pričom obe majú zadefinovanú metódu otoc()
 #
-#   -  __init__(meno, heslo, suma) - k účtu si zapamätá aj heslo
-#   -  vklad(suma) - si najprv vypýta heslo a až keď je správne, zrealizuje vklad
-#   -  vyber(suma) - si najprv vypýta heslo a až keď je správne, zrealizuje výber,
-#      inak vráti None
-#   -  pri definovaní týchto metód volajte ich pôvodné verzie z triedy Ucet
-#   -  otestujte napr.
+#
+#    - metóda otoc(uhol) v triede Turtle1 otočí korytnačku o zadaný uhol vľavo,
+#      v triede Turtle2 ju otočí vpravo
+#
+#     from turtle import Turtle
+#     from random import randrange as rr
+#
+#     class Turtle1(Turtle):
+#         ...
+#
+#     class Turtle2(Turtle):
+#
+# - teraz naprogramujte takýto test týchto dvoch tried:
+#
+#     na x-ovej osi rozložte 20 korytnačiek s rozostupmi 20 krokov, všetky budú otočené na východ -
+#     náhodným generátorom rozhodnite, ktorá z nich bude Turtle1 a ktorá Turtle2 - korytnačky uložte do poľa
+#     teraz postupne prejdete všetky korytnačky z tohto poľa a zmeníte im farbu pera na červenú (pre Turtle1)
+#     alebo na modrú (pre Turtle2)
+#     na záver štyrikrát zopakujete: každá korytnačka prejde 20 krokov a otočí sa pomocou otoc() o 90 stupňov
 
 
-class Ucet:
-    def __init__(self, meno, suma = 0):
-        self.meno = meno
-        self.suma = suma
-
-    def __str__(self):
-        return 'Ucet {} -> {} euro'.format(self.meno, self.suma)
-
-    def stav(self):
-        return self.suma
-
-    def vklad(self, suma):
-        self.suma += suma
-
-    def vyber(self, suma):
-        self.vyberam = 0
-        if self.suma > 0:
-            if self.suma < suma:
-                self.vyberam = self.suma
-                self.suma = 0
-            elif suma < 0:
-                self.vyberam = 0
-            else:
-                self.vyberam = suma
-                self.suma = self.suma - suma
-        else:
-            print('Na ucte je zostatok ... ', self.suma, ', Vyber nie je mozny!')
-            self.vyberam = 0
-
-        return self.vyberam
+import turtle
+from random import randint as ri
 
 
+class Turtle1(turtle.Turtle):
+    def __init__(self, x=0, y=0):
+        super().__init__()
+        self.speed(0)
+        self.pu()
+        self.setpos(x, y)
+        self.pd()
+    def otoc(self, uhol):
+        self.lt(uhol)
 
-class UcetHeslo(Ucet):
-    def __init__(self, meno, heslo, suma=0):
-        super().__init__(meno, suma)
-        self.heslo = heslo
+class Turtle2(turtle.Turtle):
+    def __init__(self, x=0, y=0):
+        super().__init__()
+        self.speed(0)
+        self.pu()
+        self.setpos(x, y)
+        self.pd()
+    def otoc(self, uhol):
+        self.rt(uhol)
 
-    def stav(self):
-        self.ucet_pass = input('Zadaj heslo k uctu: ')
+pocet = 20
+pole = []
+for i in range(pocet):
+    if ri(0,1):
+        pole.append(Turtle1((-200)+20*i,0))
+    else:
+        pole.append(Turtle2((-200)+20*i,0))
 
-        if self.ucet_pass != self.heslo:
-            print('Nespravne meno heslo!')
-            return None
-        else:
-            return Ucet.stav(self)
+for koryt in pole:
+    if isinstance(koryt, Turtle1):
+        koryt.color('red')
+    else:
+        koryt.color('blue')
 
-    def vklad(self, suma):
-        self.ucet_pass = input('Pre vklad zadaj heslo k uctu: ')
-        if self.ucet_pass != self.heslo:
-            print('Nespravne meno heslo!')
-            return None
-        else:
-            Ucet.vklad(self,suma)
 
-    def vyber(self, suma):
-        self.ucet_pass = input('Pre vyber zadaj heslo k uctu: ')
-        if self.ucet_pass != self.heslo:
-            print('Nespravne meno heslo!')
-            return None
-        else:
-            return Ucet.vyber(self,suma)
 
-# ------------------------------------------------------------
 
-mbank = UcetHeslo('mbank', 'gigi')
-csob = Ucet('csob', 100)
-tatra = UcetHeslo('tatra', 'gogo', 17)
-sporo = Ucet('sporo', 50)
 
-#print(dir(mbank))
-print(mbank.stav())
-mbank.vklad(20)
-print(mbank.stav())
-mbank.vyber(20)
-print(mbank.stav())
+
+
+

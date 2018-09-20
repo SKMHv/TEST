@@ -624,6 +624,7 @@ print('spolu = ', spolu)                 # spolu =  167
 #   -  otestujte napr.
 
 
+
 class Ucet:
     def __init__(self, meno, suma = 0):
         self.meno = meno
@@ -700,3 +701,5 @@ mbank.vklad(20)
 print(mbank.stav())
 mbank.vyber(20)
 print(mbank.stav())
+
+

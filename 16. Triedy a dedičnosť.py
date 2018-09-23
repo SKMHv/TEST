@@ -703,3 +703,314 @@ mbank.vyber(20)
 print(mbank.stav())
 
 
+# 4. Zadefinujte dve triedy Turtle1 a Turtle2, obidve odvodené od Turtle,
+#    pričom obe majú zadefinovanú metódu otoc()
+## ---------------------------------------------
+#
+#    - metóda otoc(uhol) v triede Turtle1 otočí korytnačku o zadaný uhol vľavo,
+#      v triede Turtle2 ju otočí vpravo
+#
+#     from turtle import Turtle
+#     from random import randrange as rr
+#
+#     class Turtle1(Turtle):
+#         ...
+#
+#     class Turtle2(Turtle):
+#
+# - teraz naprogramujte takýto test týchto dvoch tried:
+#
+#     na x-ovej osi rozložte 20 korytnačiek s rozostupmi 20 krokov, všetky budú otočené na východ -
+#     náhodným generátorom rozhodnite, ktorá z nich bude Turtle1 a ktorá Turtle2 - korytnačky uložte do poľa
+#     teraz postupne prejdete všetky korytnačky z tohto poľa a zmeníte im farbu pera na červenú (pre Turtle1)
+#     alebo na modrú (pre Turtle2)
+#     na záver štyrikrát zopakujete: každá korytnačka prejde 20 krokov a otočí sa pomocou otoc() o 90 stupňov
+
+
+import turtle
+from random import randint as ri
+
+
+class Turtle1(turtle.Turtle):
+    def __init__(self, x=0, y=0):
+        super().__init__()
+        self.speed(0)
+        self.pu()
+        self.setpos(x, y)
+        self.pd()
+    def otoc(self, uhol):
+        self.lt(uhol)
+
+class Turtle2(turtle.Turtle):
+    def __init__(self, x=0, y=0):
+        super().__init__()
+        self.speed(0)
+        self.pu()
+        self.setpos(x, y)
+        self.pd()
+    def otoc(self, uhol):
+        self.rt(uhol)
+
+pocet = 20
+pole = []
+for i in range(pocet):
+    if ri(0,1):
+        pole.append(Turtle1((-200)+20*i,0))
+    else:
+        pole.append(Turtle2((-200)+20*i,0))
+
+for koryt in pole:
+    if isinstance(koryt, Turtle1):
+        koryt.color('red')
+    else:
+        koryt.color('blue')
+
+for i in range(4):
+    for koryt in pole:
+        koryt.speed(0)
+        koryt.fd(20)
+        koryt.otoc(90)
+
+# =============================================
+# 5. Naprogramujte triedu Pero, pomocou ktorej budeme vedieť kresliť do grafickej plochy. Trieda má tieto metódy:
+#
+#        - __init__(x=0, y=0), ak ešte nebol vytvorený canvas, vytvorí ho s danou šírkou a výškou, zapamätá si
+#          súradnice pera a to, že pero je spustené dolu (bude kresliť)
+#        - pu() zdvihne pero, odteraz pohyb pera nekreslí
+#        - pd() spustí pero, pohyb bude zanechávať čiaru
+#        - setpos(x, y) presunie pero na novú pozíciu, ak je spustené pero, zanecháva čiernu čiaru hrúbky 1
+#
+#       otestujte vytvorením dvoch inštancií pera, ktoré nakreslia napr. dva štvorce
+#           p1 = Pero(100, 200)
+#           p2 = Pero(200, 150)
+
+from tkinter import *
+from math import sin, cos, pi
+
+class Pero:
+    print('Inicializujem Pero')
+    canvas = None
+    def __init__(self, x=0, y=0):
+        self.x, self.y = x, y
+        self.polygon = (self.x, self.y)
+        self.pise = True
+
+    def pu(self):
+        print('Pero je hore pu()')
+        self.pise = False
+
+    def pd(self):
+        print('Pero je dole pd()')
+        self.pise = True
+
+    def setpos(self,x,y):
+        print('setpos({},{})' .format(x,y))
+        if self.pise:
+            canvas.create_line(self.x, self.y, x, y, width=1)
+            self.x, self.y = x, y
+            self.polygon += (self.x, self.y)
+        else: self.x, self.y = x, y
+
+# ---------------------------------------------------- >
+root = Tk()
+root.configure(bg = 'white')
+root.title('16.3.5 ')
+canvas = Canvas(root, bg = 'white', width = '400', height = '400')
+c = Pero.canvas = canvas
+c.pack()
+
+p1 = Pero(100, 200)
+p2 = Pero(200, 150)
+p1.setpos(200,200), p1.setpos(200,100), p1.pu(), p1.setpos(100,100), p1.pd(), p1.setpos(100,200)
+print(p1.polygon)
+c.mainloop()
+
+
+# =============================================
+# 6. Zadefinujte triedu Turtle, ktorá bude odvodená od triedy Pero z úlohy (5):
+#
+#    - metóda __init__() vytvorí pero v strede plochy a do nového atribútu uhol nastaví 0
+#      (teda otočenie smerom na východ)
+#    - metódy lt(uhol) a rt(uhol) zmenšia, resp. zväčšia atribút uhol o zadanú hodnotu
+#    - metóda fd(dlzka) presunie pero (zavolá metódu setpos()) o zadanú dĺžku, ktorá je v momentálnom smere natočenia
+#        * asi použijete nejaký takýto vzorec pre nové x a y: x+dlzka*cos(uhol), y+dlzka*sin(uhol)
+#        * nezabudnite, že sin() a cos() fungujú v radiánoch, pričom náš atribút uhol pracuje v stupňoch
+#    - otestujte napr.
+
+
+from tkinter import *
+from math import sin, cos, pi
+
+class Pero:
+#    print('Inicializujem Pero')
+    canvas = None
+    def __init__(self, x=0, y=0):
+        self.x, self.y = x, y
+        self.polygon = (self.x, self.y)
+        self.pise = True
+
+    def pu(self):
+#        print('Pero je hore pu()')
+        self.pise = False
+
+    def pd(self):
+#        print('Pero je dole pd()')
+        self.pise = True
+
+    def setpos(self,x,y):
+        #print('setpos({},{})' .format(x,y))
+        if self.pise:
+            canvas.create_line(self.x, self.y, x, y, width=1)
+            self.x, self.y = x, y
+            self.polygon += (self.x, self.y)
+        else: self.x, self.y = x, y
+
+class Turtle(Pero):
+    def __init__(self,x=200, y=200, uhol=0):
+        super().__init__(x,y)
+        self.uhol = uhol
+    def lt(self, uhol):
+        self.uhol -= uhol
+
+    def rt(self, uhol):
+        self.uhol += uhol
+
+    def fd(self, dlzka):
+        x, y = 0, 0
+        x = round(self.x + dlzka*cos((self.uhol*pi)/ 180), 10)
+        y = round(self.y + dlzka*sin((self.uhol*pi)/ 180), 10)
+        Pero.setpos(self, x, y)
+
+# ---------------------------------------------------- >
+root = Tk()
+root.configure(bg = 'white')
+root.title('16.3.5 ')
+canvas = Canvas(root, bg = 'white', width = 400, height = 400)
+c = Pero.canvas = canvas
+c.pack()
+
+p1 = Turtle()
+p2 = Turtle(0, 400)
+
+# print('Inicializacia p1: x={}, y={}, uhol={}' .format(p1.x, p1.y, p1.uhol))
+
+
+print('Test:\n============================')
+dlzka = 200
+hlbka = 5
+for i in range(27):
+    for n in range(4):
+        p1.fd(dlzka), p1.lt(90)
+        p2.fd(dlzka), p2.lt(90)
+    p1.pu(), p1.lt(45), p1.fd(hlbka), p1.rt(45), p1.pd()
+    p2.pu(), p2.lt(45), p2.fd(hlbka), p2.rt(45), p2.pd()
+    dlzka -= 1.5 * hlbka
+
+print('Suradnice p1: ',p1.polygon)
+print('Suradnice p2: ',p2.polygon)
+
+c.mainloop()
+
+# =============================================
+# 7. Z triedy Turtle zo (6) úlohy odvoďte triedu Turtle1, do ktorej dopíšete metódu strom(n, d) (z prednášky)
+#
+#      - potom otestujte, napr.
+#
+#         t = Turtle1()
+#         t.lt(90)
+#         t.strom(5, 60)
+#
+#   vyskúšajte, či aj v tejto triede fungujú príklady z prednášky s kreslením domčeka rôznym typom čiar
+
+from tkinter import *
+from math import sin, cos, pi
+
+class Pero:
+#    print('Inicializujem Pero')
+    canvas = None
+    def __init__(self, x=0, y=0):
+        self.x, self.y = x, y
+        self.polygon = (self.x, self.y)
+        self.pise = True
+
+    def pu(self):
+#        print('Pero je hore pu()')
+        self.pise = False
+
+    def pd(self):
+#        print('Pero je dole pd()')
+        self.pise = True
+
+    def setpos(self,x,y):
+        #print('setpos({},{})' .format(x,y))
+        if self.pise:
+            canvas.create_line(self.x, self.y, x, y, width=1)
+            self.x, self.y = x, y
+            self.polygon += (self.x, self.y)
+        else: self.x, self.y = x, y
+
+class Turtle(Pero):
+    def __init__(self,x=200, y=200, uhol=0):
+        super().__init__(x,y)
+        self.uhol = uhol
+    def lt(self, uhol):
+        self.uhol -= uhol
+
+    def rt(self, uhol):
+        self.uhol += uhol
+
+    def fd(self, dlzka):
+        x, y = 0, 0
+        x = round(self.x + dlzka*cos((self.uhol*pi)/ 180), 10)
+        y = round(self.y + dlzka*sin((self.uhol*pi)/ 180), 10)
+        Pero.setpos(self, x, y)
+
+    def bk(self, dlzka):
+        x, y = 0, 0
+        x = round(self.x - dlzka * cos((self.uhol * pi) / 180), 10)
+        y = round(self.y - dlzka * sin((self.uhol * pi) / 180), 10)
+        Pero.setpos(self, x, y)
+
+
+class Turtle1(Turtle):
+
+    def strom(self,n,d):
+        self.fd(d)
+        if n > 0:
+            self.lt(40)
+            self.strom(n - 1, d * 0.6)
+            self.rt(90)
+            self.strom(n - 1, d * 0.7)
+            self.lt(50)
+        self.bk(d)
+
+
+    def domcek(self,dlzka):
+        for uhol in 90, 90, 90, 30, 120, -60:
+            self.fd(dlzka)
+            self.rt(uhol)
+
+
+# ---------------------------------------------------- >
+root = Tk()
+root.configure(bg = 'white')
+root.title('16.3.5 ')
+canvas = Canvas(root, bg = 'white', width = 400, height = 400)
+c = Pero.canvas = canvas
+c.pack()
+
+p1 = Turtle1(100, 200)
+p2 = Turtle1()
+
+# print('Inicializacia p1: x={}, y={}, uhol={}' .format(p1.x, p1.y, p1.uhol))
+
+print('Test:\n============================')
+
+p1.domcek(50)
+print('Polygon p1: ',p1.polygon)
+print('Polygon p2: ',p2.polygon)
+
+p2.lt(90)
+p2.strom(5, 60)
+
+c.mainloop()

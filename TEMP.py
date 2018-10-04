@@ -7,6 +7,9 @@ import datetime
 
 
 class Pouzivatel:
+    """
+    Trieda Pouzivatel obsahuje nasledovne funkcie: ...
+    """
     def __init__(self, meno, priezvisko, datumzalozenia, email, heslo):
         self.meno, self.priezvisko, self.datumzalozenia, self.email, self.heslo = meno, priezvisko, datumzalozenia, email, heslo
 

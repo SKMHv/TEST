@@ -10,14 +10,28 @@ class Pouzivatel:
     """
     Trieda Pouzivatel obsahuje nasledovne funkcie: ...
     """
-    def __init__(self, meno, priezvisko, datumzalozenia, email, heslo):
-        self.meno, self.priezvisko, self.datumzalozenia, self.email, self.heslo = meno, priezvisko, datumzalozenia, email, heslo
+    def __init__(self, meno, priezvisko, email, heslo):
+        self.meno, self.priezvisko, self.email, self.heslo = meno, priezvisko, email, heslo
+
+
+    # def vytvor_pouzivatela(self):
+    #     Pouzivatel.vyhladaj_pouzivatela(self.email)
 
         # vyhladaj / skontroluj ci pouzivatel existuje
         # ak existuje tak vrat existujuceho
         # ak neexistuje tak zaloz noveho
         # SQLdb.zapis(self, sql)
 
+    def vyhladaj_pouzivatela(self,email):
+        SQLdb.hladaj('pouzivatelia','email',email)
+
+
+
+
+
+#    def deaktivuj_pouzivatela(self,email):
+
+# ----------------------- SQL -----------------------
 
 class SQLdb:
     """
@@ -95,11 +109,11 @@ class SQLdb:
                 self.conn.commit()
         finally:
             print('Po commit historia')
-
-
-
-# --------------------------------------------------------------
-p1 = SQLdb('echolonDB')
-p1.SQLconnect()
-print(p1.hladaj('pouzivatelia','email','janko@hrasko.com'))
-p1.SQLdisconnect()
+# ---------------------------------------------------------------
+# ========================== TESTUJ =============================
+db = SQLdb('echolonDB')
+db.SQLconnect()
+p1 = Pouzivatel('Jozko', 'Pucik', 'jozko.pucik@gmail.com', '111111')
+p1.vyhladaj_pouzivatela('jozko.pucik@gmail.com')
+#print(db.hladaj('pouzivatelia','email','janko@hrasko.com'))
+db.SQLdisconnect()

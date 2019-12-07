@@ -9,7 +9,7 @@ class SQCConnector:
     def __init__(self):
         self.conn = pymysql.connect(host='127.0.0.1',
                                user='root',
-                               password='Pipo246.',
+                               password='pass12354',
                                db='echolonDB',
                                charset='utf8mb4',
                                cursorclass=pymysql.cursors.DictCursor)
